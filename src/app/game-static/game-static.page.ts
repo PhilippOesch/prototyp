@@ -9,7 +9,9 @@ import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-nativ
 })
 export class GameStaticPage implements OnInit {
   soundController;
-  constructor(private deviceOrientation: DeviceOrientation) { }
+  constructor(protected deviceOrientation: DeviceOrientation) { 
+    
+  }
 
   ngOnInit() {
     this.soundController = new SoundController (this.deviceOrientation, 'sound.json');
