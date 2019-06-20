@@ -20,10 +20,11 @@ export class SoundController {
     }
 
 loadJson(fileName) {
-       //return parseJson('../assets/json/' + fileName);
     const url = '../assets/json/' + fileName;
-    // TODO: Doesn't work, need more thinking.
-    this.soundArray = require(url);
+
+    fetch(url).then(function(response) {
+        this.soundArray = response.json();
+  });
 }
 init() {
         //console.log(this.soundArray);
