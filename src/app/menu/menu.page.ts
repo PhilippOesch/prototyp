@@ -6,12 +6,16 @@ import { StaticAudio } from '../classes/StaticAudio';
   templateUrl: './menu.page.html',
   styleUrls: ['./menu.page.scss'],
 })
-export class MenuPage implements OnInit {
 
+export class MenuPage implements OnInit {
+  overlayHidden = false;
   constructor() { }
   ngOnInit() {
     const titleSound = new StaticAudio('../assets/music/title_music.mp3', .5, true);
     titleSound.play();
+  }
+  public hideOverlay() {
+    this.overlayHidden = true;
   }
 
 

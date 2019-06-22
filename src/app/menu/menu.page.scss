@@ -9,3 +9,22 @@ ion-content {
 .menu-row {
   margin-top: 100px;
 }
+
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 20;
+  top: 0;
+  left: 0;
+}
+.wrapper {
+  color: #fff;
+  text-align: center;
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  top: calc(50% - 150px);
+  left: calc(50% - 150px);
+}

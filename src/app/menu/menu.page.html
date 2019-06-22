@@ -3,8 +3,15 @@
     <ion-title>Menü</ion-title>
   </ion-toolbar>
 </ion-header>
-
+<div class="overlay" padding [hidden]="overlayHidden">
+    <div class="wrapper">
+      <ion-img src="assets/img/stylephones.svg"> </ion-img>
+      <p>Um die binauralen Klänge erleben zu können, benutze bitte Kopfhörer.</p>
+  <ion-button size="large" (click)="hideOverlay()">Bestätigen</ion-button>
+    </div>
+</div>
 <ion-content>
+
   <ion-row class="menu">
     <ion-col class="menu-row">
 <ion-button size="large" href="/game-env">Start Protoyp</ion-button>
