@@ -1,5 +1,6 @@
 import { Sound } from './Sound';
 import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-native/device-orientation/ngx';
+import json from '../../assets/json/sound.json';
 
 // TODO: Need a lot of work. Don't know what to say.
 
@@ -7,33 +8,22 @@ export class SoundController {
 
     soundMap: Map<string, any>;
     context;
-    orientation;
-    soundArray;
+    orientation: DeviceOrientation;
+    soundArray: [];
     heading: number;
-    constructor(protected deviceOrientation: DeviceOrientation, jsonFileName: string) {
+    constructor(protected deviceOrientation: DeviceOrientation, chapter: number) {
         this.soundMap = new Map();
         this.context = (window.AudioContext) ? new window.AudioContext : new window.webkitAudioContext;
         this.orientation = this.deviceOrientation;
         this.heading = 0;
-        this.loadJson(jsonFileName);
+        this.soundArray = json[chapter - 1];
     }
 
-async loadJson(fileName) {
-    const url = '../assets/json/' + fileName;
 
-    fetch(url).then(response =>{
-        return response.json();
-    }).then(data=> {
-        this.soundArray= data;
-        this.init();
-    }).catch(err => {
-       console.log(err);
-    });
-}
 init() {
-        console.log(this.soundArray);
+        console.log('Sound Array loaded from JSON: ' + this.soundArray);
 
-        //Init all Sounds inside Array
+        // Init all Sounds inside Array
         for (let value of this.soundArray) {
             this.soundMap.set(value.name, new Sound(this.context, this.orientation, value.name, value.order, value.startpoint));
             const sound = this.soundMap.get(value.name);
@@ -41,7 +31,7 @@ init() {
             sound.loadSound();
         }
 
-        //Device Orientation
+        // Device Orientation
         this.deviceOrientation.getCurrentHeading().then(
             (data: DeviceOrientationCompassHeading) => this.heading = data.magneticHeading,
             (error: any) => console.log(error)
