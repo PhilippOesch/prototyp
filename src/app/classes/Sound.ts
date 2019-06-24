@@ -9,6 +9,7 @@ export class Sound {
     context;
     source;
     encoder;
+    binDecoder;
     summator;
     rotator;
 
@@ -23,7 +24,7 @@ export class Sound {
     isPlaying = false;
 
     /*Constructor*/
-    constructor(context, private deviceOrientation: DeviceOrientation, path: String, order: number, startpoint: number ) {
+    constructor(context, protected deviceOrientation: DeviceOrientation, path: String, order: number, startpoint: number ) {
         this.context = context;
         this.source = this.context.createBufferSource();
         this.summator = this.context.createGain();
@@ -77,13 +78,13 @@ export class Sound {
         this.rotator.updateRotMtx();
 
         // Binaural Decoder
-        const binDecoder = new ambisonics.binDecoder(this.context, this.order);
-        binDecoder.resetFilters();
+        this.binDecoder = new ambisonics.binDecoder(this.context, this.order);
+        this.binDecoder.resetFilters();
 
         // Summing and routing of Audio Sources
         this.summator.connect(this.rotator.in);
-        this.rotator.out.connect(binDecoder.in);
-        binDecoder.out.connect(this.context.destination);
+        this.rotator.out.connect(this.binDecoder.in);
+        this.binDecoder.out.connect(this.context.destination);
 
         this.hoaEncoder(this.order, this.startpoint);
 
@@ -105,5 +106,12 @@ export class Sound {
         // this.encoder.elev = this.elev; // Vertical Position
         this.encoder.updateGains();
         console.log(this.encoder);
+    }
+
+    //set Gain ...duh
+    setGain(value){
+        this.summator.gain.value= value;
+        this.summator.connect(this.context.destination);
+        this.source.connect(this.summator)
     }
 }

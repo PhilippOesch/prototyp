@@ -11,6 +11,9 @@ import { AppRoutingModule } from './app-routing.module';
 /* Custom Modules */
 import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-native/device-orientation/ngx';
 
+/* needed that for building apk directly on Smartphone */
+//import { AudioContext, OfflineAudioContext } from 'standardized-audio-context';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -19,6 +22,7 @@ import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-nativ
     StatusBar,
     SplashScreen,
     DeviceOrientation,
+    //AudioContext,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

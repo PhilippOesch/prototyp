@@ -1,24 +1,21 @@
 [
-    [
-        {
-          "name" : "timberlake.wav",
-          "order": 2,
-          "startpoint": 45,
-          "loop": false
+    [{
+            "name": "timberlake.wav",
+            "order": 2,
+            "startpoint": 45,
+            "loop": false
         },
         {
-          "name": "car_door.wav",
-          "order": 2,
-          "startpoint": 270,
-          "loop": true
+            "name": "car_door.wav",
+            "order": 2,
+            "startpoint": 270,
+            "loop": true
         }
     ],
-  [
-    {
-      "name" : "timberlake.wav",
-      "order": 2,
-      "startpoint": 45,
-      "loop": false
-    }
-  ]
+    [{
+        "name": "timberlake.wav",
+        "order": 2,
+        "startpoint": 45,
+        "loop": false
+    }]
 ]
