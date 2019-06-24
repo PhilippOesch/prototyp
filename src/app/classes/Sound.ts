@@ -94,7 +94,7 @@ export class Sound {
                 this.heading = data.magneticHeading;
 
                 //Update Rotation
-                this.rotator.yaw = this.heading;
+                this.rotator.yaw = 360-this.heading;
                 this.rotator.updateRotMtx();
             },
         );
@@ -112,6 +112,6 @@ export class Sound {
     setGain(value){
         this.summator.gain.value= value;
         this.summator.connect(this.context.destination);
-        this.source.connect(this.summator)
+        this.source.connect(this.summator);
     }
 }

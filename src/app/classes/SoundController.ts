@@ -7,7 +7,7 @@ import { MultichannelSound } from './MultichannelSound';
 import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-native/device-orientation/ngx';
 
 /* needed that for building apk directly on Smartphone */
-//import { AudioContext, OfflineAudioContext } from 'standardized-audio-context';
+import { AudioContext, OfflineAudioContext } from 'standardized-audio-context';
 import json from '../../assets/json/sound.json';
 
 // TODO: Need a lot of work. Don't know what to say.
@@ -22,8 +22,8 @@ export class SoundController {
 
     constructor(protected deviceOrientation: DeviceOrientation, chapter: number) {
         this.soundMap = new Map();
-        //this.context = new AudioContext();
-        this.context = (window.AudioContext) ? new window.AudioContext : new window.webkitAudioContext;
+        this.context = new AudioContext();
+        //this.context = (window.AudioContext) ? new window.AudioContext : new window.webkitAudioContext;
         this.orientation = this.deviceOrientation;
         this.heading = 0;
         this.soundArray = json[chapter - 1];
