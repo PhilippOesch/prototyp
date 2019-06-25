@@ -5,5 +5,9 @@
 </ion-header>
 
 <ion-content>
+    <h3>verlasse dich auf dein Gehör und suche die Affen</h3>
     <p>Position in Grad: {{heading | number:"1.1-1"}}°</p>
+    <p>Position Affe: {{monkeyPos | number:"1.1-1"}}°</p>
+    <ion-button size="large" (click)="catchMonkey()">Affe fangen</ion-button>
+    <h5>Punkte: {{points}}</h5>
 </ion-content>

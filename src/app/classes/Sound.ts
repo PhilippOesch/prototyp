@@ -11,7 +11,7 @@ export class Sound {
     encoder;
     binDecoder;
     summator;
-    rotator;
+    rotator
 
     //compass value
     heading;
@@ -24,13 +24,14 @@ export class Sound {
     isPlaying = false;
 
     /*Constructor*/
-    constructor(context, protected deviceOrientation: DeviceOrientation, path: String, order: number, startpoint: number ) {
+    constructor(context, protected deviceOrientation: DeviceOrientation, path: String, order: number, startpoint: number, rotator ) {
         this.context = context;
         this.source = this.context.createBufferSource();
         this.summator = this.context.createGain();
         this.path = path;
         this.order = order;
         this.startpoint = startpoint;
+        this.rotator= rotator;
     }
 
     /*Methods*/
@@ -65,39 +66,11 @@ export class Sound {
     }
 
     init() {
-        // Initiate Device Orientation
-        this.deviceOrientation.getCurrentHeading().then(
-            (data: DeviceOrientationCompassHeading) => this.heading = data.magneticHeading,
-            (error: any) => console.log(error)
-        );
-
-        // Rotation
-        this.rotator = new ambisonics.sceneRotator(this.context, this.order);
-        const angleInDegrees = this.startpoint;
-        this.rotator.yaw = angleInDegrees;
-        this.rotator.updateRotMtx();
-
-        // Binaural Decoder
-        this.binDecoder = new ambisonics.binDecoder(this.context, this.order);
-        this.binDecoder.resetFilters();
 
         // Summing and routing of Audio Sources
         this.summator.connect(this.rotator.in);
-        this.rotator.out.connect(this.binDecoder.in);
-        this.binDecoder.out.connect(this.context.destination);
-
         this.hoaEncoder(this.order, this.startpoint);
 
-        // Watch Device Orientation
-        var subscription = this.deviceOrientation.watchHeading().subscribe(
-            (data: DeviceOrientationCompassHeading) => {
-                this.heading = data.magneticHeading;
-
-                //Update Rotation
-                this.rotator.yaw = 360-this.heading;
-                this.rotator.updateRotMtx();
-            },
-        );
     }
 
     hoaEncoder(order: number, azim: number) {

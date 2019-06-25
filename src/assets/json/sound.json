@@ -12,10 +12,30 @@
             "loop": true
         }
     ],
-    [{
-        "name": "timberlake.wav",
-        "order": 2,
-        "startpoint": 45,
-        "loop": false
-    }]
+    [
+        {
+            "name": "Atmo_01_44_16_norm.wav",
+            "order": 1,
+            "startpoint": 0,
+            "loop": true
+        },
+        {
+            "name": "monkey_01_norm.wav",
+            "order": 3,
+            "startpoint": 0,
+            "loop": false
+        },
+        {
+            "name": "monkey_02_norm.wav",
+            "order": 3,
+            "startpoint": 0,
+            "loop": false
+        },
+        {
+            "name": "monkey_03_norm.wav",
+            "order": 3,
+            "startpoint": 0,
+            "loop": false
+        }
+    ]
 ]
