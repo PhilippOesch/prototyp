@@ -1,4 +1,5 @@
 import { Component, OnInit, Input} from '@angular/core';
+import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-compass',

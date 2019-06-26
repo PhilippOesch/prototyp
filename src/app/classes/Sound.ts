@@ -24,7 +24,8 @@ export class Sound {
     isPlaying = false;
 
     /*Constructor*/
-    constructor(context, protected deviceOrientation: DeviceOrientation, path: String, order: number, startpoint: number, rotator ) {
+    constructor(context, protected deviceOrientation: DeviceOrientation, path: String, order: number, startpoint: number, rotator, encoder ) {
+        //this.encoder= encoder;
         this.context = context;
         this.source = this.context.createBufferSource();
         this.summator = this.context.createGain();
@@ -42,17 +43,13 @@ export class Sound {
         this.isPlaying = false;
     }
 
-    playloop(pause = false, ms = 0) {
+    playloop(ms = 0) {
         this.source.connect(this.encoder.in);
         this.encoder.out.connect(this.summator);
         this.source.loop = true;
-        this.source.loopStart= 1000;
+        this.source.loopStart= 2000;
         this.source.start(0);
         this.isPlaying = true;
-        // if (pause) {
-        //     const date = new Date();
-        //     let currentTime = date.Uni
-        // }
     }
 
     stop() {
@@ -79,8 +76,8 @@ export class Sound {
     }
 
     hoaEncoder(order: number, azim: number) {
-        this.encoder = new ambisonics.monoEncoder(this.context, order);
-        this.encoder.azim = azim; // Horizontal Position
+        this.encoder= new ambisonics.monoEncoder(this.context, this.order);
+        this.encoder.azim = -azim; // Horizontal Position
         // this.encoder.elev = this.elev; // Vertical Position
         this.encoder.updateGains();
         console.log(this.encoder);

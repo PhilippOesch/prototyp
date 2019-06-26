@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 /* Custom Modules */
 import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-native/device-orientation/ngx';
+import { Vibration } from '@ionic-native/vibration/ngx';
 
 /* needed that for building apk directly on Smartphone */
 import { AudioContext, OfflineAudioContext } from 'standardized-audio-context';
@@ -23,6 +24,7 @@ import { AudioContext, OfflineAudioContext } from 'standardized-audio-context';
     SplashScreen,
     DeviceOrientation,
     AudioContext,
+    Vibration,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { SoundController } from '../classes/SoundController';
 import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-native/device-orientation/ngx';
-
+import { Vibration } from '@ionic-native/vibration/ngx';
 
 @Component({
   selector: 'app-game-env',
@@ -14,13 +14,14 @@ export class GameEnvPage implements OnInit {
   heading= 0;
   points= 0;
   monkeyTyp= 1;
+  initheading: number;
 
   monkeySound: any;
 
   //for timer
   interval;
 
-  constructor(protected deviceOrientation: DeviceOrientation) { }
+  constructor(protected deviceOrientation: DeviceOrientation, private vibration: Vibration) { }
 
   ngOnInit() {
 
@@ -47,9 +48,10 @@ export class GameEnvPage implements OnInit {
     this.soundController.initSound(0, 0, "multi");
     this.soundController.playSound(0);
 
+    this.initheading = this.heading;
     //generate random value (0-360) and create Bineural Sound at that Position
     setInterval(() =>{
-      this.soundController.stopSound( this.monkeyTyp)
+      this.soundController.stopSound( this.monkeyTyp);
       this.spawnMonkey();
     }, 7000)
 
@@ -62,8 +64,8 @@ export class GameEnvPage implements OnInit {
       ramdomtyp= Math.floor((Math.random() * 3) + 1); 
     }
     this.monkeyTyp= ramdomtyp;
-    this.monkeyPos= random;
     this.soundController.initSound(this.monkeyTyp, random, 'hrtf');
+    this.monkeyPos= random;
     this.monkeySound= this.getMonkeySound(this.monkeyTyp);
     this.soundController.playSound(this.monkeyTyp, true);
     
@@ -71,14 +73,16 @@ export class GameEnvPage implements OnInit {
 
   catchMonkey(){
     const currentPos= this.heading;
-    if(this.monkeyPos+5 >=currentPos && this.monkeyPos-5 <=currentPos)
+    if(this.monkeyPos+5 >=currentPos && this.monkeyPos-5 <=currentPos && this.soundController.soundMap.has(this.monkeyTyp))
     {
       this.points++;
+      this.vibration.vibrate(1000);
+      this.soundController.stopSound( this.monkeyTyp);
     }
   }
 
   getMonkeySound(index){
-    return this.soundController.soundMap.get(this.soundController.soundArray[index].name)
+    return this.soundController.soundMap.get(index);
   }
 
   endGame(){

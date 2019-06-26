@@ -9,7 +9,6 @@ import { GameEnvPage } from './game-env.page';
 
 //Compass Component
 import { CompassComponent } from '../componets/compass/compass.component';
-import { CompassPointerComponent } from '../componets/compass/compass-pointer/compass-pointer.component';
 
 const routes: Routes = [
   {
@@ -28,7 +27,6 @@ const routes: Routes = [
   declarations: [
     GameEnvPage, 
     CompassComponent,
-    CompassPointerComponent
   ]
 })
 export class GameEnvPageModule {}

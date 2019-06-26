@@ -4,5 +4,7 @@
     <app-compass [heading]="heading"></app-compass>
     <!-- <p>Position Affe: {{monkeyPos | number:"1.1-1"}}°</p> -->
     <ion-button size="large" (click)="catchMonkey()">Affe fangen</ion-button>
+    <h3>Pos: {{heading| number:"1.1-1"}}</h3>
+    <h3>Affen pos: {{monkeyPos}}</h3>
     <h3>Affen gefangen: {{points}}</h3>
 </ion-content>

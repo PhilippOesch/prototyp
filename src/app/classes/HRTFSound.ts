@@ -6,8 +6,8 @@ declare const ambisonics;
 
 export class HRTFSound extends Sound {
 
-    constructor(context, protected deviceOrientation: DeviceOrientation, path: String, order: number, startpoint: number, rotator ){
-        super(context, deviceOrientation, path, order, startpoint, rotator);
+    constructor(context, protected deviceOrientation: DeviceOrientation, path: String, order: number, startpoint: number, rotator , encoder){
+        super(context, deviceOrientation, path, order, startpoint, rotator, encoder);
     }
 
     loadSound() {
