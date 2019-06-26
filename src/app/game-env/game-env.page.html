@@ -1,13 +1,8 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-title>game-env</ion-title>
-    </ion-toolbar>
-</ion-header>
-
-<ion-content>
-    <h3>verlasse dich auf dein Gehör und suche die Affen</h3>
-    <p>Position in Grad: {{heading | number:"1.1-1"}}°</p>
-    <p>Position Affe: {{monkeyPos | number:"1.1-1"}}°</p>
+<ion-content color="dark">
+    <h1 class="title">Finde die Affen</h1>
+    <h5 class="subtitle">verlasse dich auf dein Gehör und suche die Affen</h5>
+    <app-compass [heading]="heading"></app-compass>
+    <!-- <p>Position Affe: {{monkeyPos | number:"1.1-1"}}°</p> -->
     <ion-button size="large" (click)="catchMonkey()">Affe fangen</ion-button>
-    <h5>Punkte: {{points}}</h5>
+    <h3>Affen gefangen: {{points}}</h3>
 </ion-content>

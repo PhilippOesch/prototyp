@@ -23,19 +23,19 @@
             "name": "monkey_01_norm.wav",
             "order": 3,
             "startpoint": 0,
-            "loop": false
+            "loop": true
         },
         {
             "name": "monkey_02_norm.wav",
             "order": 3,
             "startpoint": 0,
-            "loop": false
+            "loop": true
         },
         {
             "name": "monkey_03_norm.wav",
             "order": 3,
             "startpoint": 0,
-            "loop": false
+            "loop": true
         }
     ]
 ]

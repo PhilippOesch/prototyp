@@ -1,0 +1,20 @@
+<ion-header>
+    <ion-toolbar color="dark">
+        <ion-title class="center-text">Kompass</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <app-compass-display [heading]="heading"></app-compass-display>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <app-compass-pointer [heading]="heading"></app-compass-pointer>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

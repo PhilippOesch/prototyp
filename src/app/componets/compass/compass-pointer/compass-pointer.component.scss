@@ -1,0 +1,29 @@
+.compass-container {
+    width: 100%;
+    position: relative;
+}
+
+.compass-Background {
+    position: absolute;
+    margin: auto;
+    width: 200px;
+    height: 200px;
+    background-image: url("../../../../assets/img/Kompass.svg");
+}
+
+.pointer {
+    position: absolute;
+    z-index: 100;
+    width: 6px;
+    background-color: red;
+    height: 210px;
+    left: 97px;
+    top: -5px;
+}
+
+.compass-inneres {
+    position: relative;
+    margin: auto;
+    width: 200px;
+    height: 200px
+}

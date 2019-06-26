@@ -139,7 +139,10 @@ initSounds(){
         if (this.soundMap.has(this.soundArray[index].name)) {
 
             // Stop playing Sound
-            // const sound = this.soundMap.get(this.soundArray[index].name);
+            const sound = this.soundMap.get(this.soundArray[index].name);
+            if(sound.isPlaying){
+                sound.stop();
+            }
             // sound.stop();
 
             // delete Sound from Map
@@ -156,9 +159,9 @@ initSounds(){
     //init one specific sound
     initSound(index, startpoint= 0, typ= "", gain= 1){
         //check Sound-Type
-        if(typ== "multi"){
+        if(typ=== "multi"){
             this.soundMap.set(this.soundArray[index].name, new MultichannelSound(this.context, this.orientation, this.soundArray[index].name, this.soundArray[index].order, this.setHeading(startpoint), this.rotator));
-        } else if(typ= "hrtf") {
+        } else if(typ=== "hrtf") {
             this.soundMap.set(this.soundArray[index].name, new HRTFSound(this.context, this.orientation, this.soundArray[index].name, this.soundArray[index].order, this.setHeading(startpoint), this.rotator));
         } else {
             this.soundMap.set(this.soundArray[index].name, new Sound(this.context, this.orientation, this.soundArray[index].name, this.soundArray[index].order, this.setHeading(startpoint), this.rotator));
@@ -176,5 +179,13 @@ initSounds(){
     setHeading(startpoint){
         //Wert zwischen 0 und 360
         return (this.initheading+ startpoint)% 360;
+    }
+
+    stopAllSounds(){
+        for (let value of this.soundArray) {
+            if(this.soundMap.has(value.name)){
+                this.stopSound(value);
+            }
+        }
     }
 }

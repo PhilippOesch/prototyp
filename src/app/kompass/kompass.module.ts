@@ -5,16 +5,15 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { GameEnvPage } from './game-env.page';
+import { KompassPage } from './kompass.page';
 
-//Compass Component
-import { CompassComponent } from '../componets/compass/compass.component';
-import { CompassPointerComponent } from '../componets/compass/compass-pointer/compass-pointer.component';
+import { CompassDisplayComponent } from './compass-display/compass-display.component';
+import { CompassPointerComponent } from './compass-pointer/compass-pointer.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: GameEnvPage
+    component: KompassPage
   }
 ];
 
@@ -26,9 +25,8 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [
-    GameEnvPage, 
-    CompassComponent,
-    CompassPointerComponent
-  ]
+    KompassPage,
+    CompassDisplayComponent,
+    CompassPointerComponent]
 })
-export class GameEnvPageModule {}
+export class KompassPageModule {}

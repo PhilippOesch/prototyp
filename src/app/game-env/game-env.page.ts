@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { SoundController } from '../classes/SoundController';
 import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-native/device-orientation/ngx';
 
+
 @Component({
   selector: 'app-game-env',
   templateUrl: './game-env.page.html',
@@ -9,7 +10,7 @@ import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-nativ
 })
 export class GameEnvPage implements OnInit {
   soundController;
-  monkeyPos;
+  monkeyPos= 0;
   heading= 0;
   points= 0;
   monkeyTyp= 1;
@@ -50,7 +51,7 @@ export class GameEnvPage implements OnInit {
     setInterval(() =>{
       this.soundController.stopSound( this.monkeyTyp)
       this.spawnMonkey();
-    }, 10000)
+    }, 7000)
 
   }
 
@@ -80,5 +81,8 @@ export class GameEnvPage implements OnInit {
     return this.soundController.soundMap.get(this.soundController.soundArray[index].name)
   }
 
+  endGame(){
+    this.soundController.stopAllSounds();
+  }
 
 }

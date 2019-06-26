@@ -39,15 +39,20 @@ export class Sound {
         this.source.connect(this.encoder.in);
         this.encoder.out.connect(this.summator);
         this.source.start(0);
-        this.isPlaying = true;
+        this.isPlaying = false;
     }
 
-    playloop() {
+    playloop(pause = false, ms = 0) {
         this.source.connect(this.encoder.in);
         this.encoder.out.connect(this.summator);
         this.source.loop = true;
+        this.source.loopStart= 1000;
         this.source.start(0);
         this.isPlaying = true;
+        // if (pause) {
+        //     const date = new Date();
+        //     let currentTime = date.Uni
+        // }
     }
 
     stop() {
