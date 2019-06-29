@@ -16,7 +16,6 @@ export class GameEnvPage implements OnInit {
   heading= 0;
   points= 0;
   monkeyTyp= 1;
-  initheading: number;
 
   monkeySound: any;
   intervalSpawn;
@@ -44,7 +43,10 @@ export class GameEnvPage implements OnInit {
         },
     );
 
-    //Init Sound Controller
+  }
+
+  ionViewDidEnter(){
+    //Init Sound Controlle
     this.soundController = new SoundController (this.deviceOrientation, 2);
     this.soundController.initController();
 
@@ -52,7 +54,6 @@ export class GameEnvPage implements OnInit {
     this.soundController.initSound(0, 0, "multi", 0.3);
     this.soundController.playSound(0);
 
-    this.initheading = this.heading;
 
     this.intervalSpawn = setInterval(() =>{
       this.soundController.stopSound( this.monkeyTyp);
@@ -70,7 +71,6 @@ export class GameEnvPage implements OnInit {
         this.showOverlay();
       }
     }, 1000);
-
   }
 
   spawnMonkey(){
@@ -81,7 +81,7 @@ export class GameEnvPage implements OnInit {
     }
     this.monkeyTyp= ramdomtyp;
     this.soundController.initSound(this.monkeyTyp, random, 'hrtf');
-    this.monkeyPos= (random+ this.initheading)% 360;
+    this.monkeyPos= random;
     this.monkeySound= this.getMonkeySound(this.monkeyTyp);
     this.soundController.playSound(this.monkeyTyp, true);
     
@@ -108,4 +108,5 @@ export class GameEnvPage implements OnInit {
   public showOverlay() {
     this.overlayHidden = false;
   }
+
 }

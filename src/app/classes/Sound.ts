@@ -77,7 +77,7 @@ export class Sound {
 
     hoaEncoder(order: number, azim: number) {
         this.encoder= new ambisonics.monoEncoder(this.context, this.order);
-        this.encoder.azim = -azim; // Horizontal Position
+        this.encoder.azim = azim; // Horizontal Position
         // this.encoder.elev = this.elev; // Vertical Position
         this.encoder.updateGains();
         console.log(this.encoder);

@@ -45,7 +45,6 @@ initController() {
         this.deviceOrientation.getCurrentHeading().then(
             (data: DeviceOrientationCompassHeading) => {
                 this.heading = data.magneticHeading;
-                this.initheading= data.magneticHeading;
             },
             (error: any) => console.log(error)
         );
@@ -162,7 +161,7 @@ initSounds(){
     initSound(index, startpoint= 0, typ= "", gain= 1){
         //check Sound-Type
         if(typ=== "multi"){
-            this.soundMap.set(index, new MultichannelSound(this.context, this.orientation, this.soundArray[index].name, this.soundArray[index].order, this.setHeading(startpoint), this.rotator, this.encoder));
+            this.soundMap.set(index, new MultichannelSound(this.context, this.orientation, this.soundArray[index].name, this.soundArray[index].order,  this.setHeading(startpoint), this.rotator, this.encoder));
         } else if(typ=== "hrtf") {
             this.soundMap.set(index, new HRTFSound(this.context, this.orientation, this.soundArray[index].name, this.soundArray[index].order, this.setHeading(startpoint), this.rotator, this.encoder));
         } else {
@@ -180,8 +179,8 @@ initSounds(){
     }
 
     setHeading(startpoint){
-        //Wert zwischen 0 und 360
-        return startpoint;
+        //for some reason everything is turned +180 degrees, dont know why 
+        return (startpoint+180)% 360;
     }
 
     stopAllSounds(){
