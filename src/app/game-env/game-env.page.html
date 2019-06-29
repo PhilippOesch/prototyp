@@ -1,10 +1,19 @@
+<div class="overlay" padding [hidden]="overlayHidden">
+    <div class="overlay-content-wrapper">
+        <h1>Glückwunsch</h1>
+        <h3>Du hast {{points}} Affen gefangen</h3>
+        <div class="button-container">
+            <ion-button color="primary" size="large" href="/game-env">Erneut versuchen</ion-button>
+            <ion-button color="medium"  size="large" href="/menu">Zurück zum Menü</ion-button>
+        </div>
+    </div>
+</div>
 <ion-content color="dark">
-    <h1 class="title">Finde die Affen</h1>
-    <h5 class="subtitle">verlasse dich auf dein Gehör und suche die Affen</h5>
+    <h1 class="title">Finde die Affen!</h1>
+    <h5 class="subtitle">Verlasse dich auf dein Gehör und finde die Affen.</h5>
     <app-compass [heading]="heading"></app-compass>
     <!-- <p>Position Affe: {{monkeyPos | number:"1.1-1"}}°</p> -->
     <ion-button size="large" (click)="catchMonkey()">Affe fangen</ion-button>
-    <h3>Pos: {{heading| number:"1.1-1"}}</h3>
-    <h3>Affen pos: {{monkeyPos}}</h3>
     <h3>Affen gefangen: {{points}}</h3>
+    <h5>verbleibende Zeit: {{timeleft}}s</h5>
 </ion-content>

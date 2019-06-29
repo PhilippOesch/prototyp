@@ -9,6 +9,8 @@ import { Vibration } from '@ionic-native/vibration/ngx';
   styleUrls: ['./game-env.page.scss'],
 })
 export class GameEnvPage implements OnInit {
+  overlayHidden = true;
+
   soundController;
   monkeyPos= 0;
   heading= 0;
@@ -17,9 +19,11 @@ export class GameEnvPage implements OnInit {
   initheading: number;
 
   monkeySound: any;
+  intervalSpawn;
 
   //for timer
-  interval;
+  intervalTimer;
+  timeleft= 90;
 
   constructor(protected deviceOrientation: DeviceOrientation, private vibration: Vibration) { }
 
@@ -45,15 +49,27 @@ export class GameEnvPage implements OnInit {
     this.soundController.initController();
 
     //start Athmo
-    this.soundController.initSound(0, 0, "multi");
+    this.soundController.initSound(0, 0, "multi", 0.3);
     this.soundController.playSound(0);
 
     this.initheading = this.heading;
-    //generate random value (0-360) and create Bineural Sound at that Position
-    setInterval(() =>{
+
+    this.intervalSpawn = setInterval(() =>{
       this.soundController.stopSound( this.monkeyTyp);
       this.spawnMonkey();
-    }, 7000)
+    }, 10000)
+
+    this.intervalTimer = setInterval(() => {
+      this.timeleft = this.timeleft - 1;
+      console.log(this.timeleft);
+      if(this.timeleft === 0){ 
+        clearInterval(this.intervalTimer);
+        clearInterval(this.intervalSpawn);
+        this.soundController.stopSound( this.monkeyTyp);
+        this.soundController.stopSound( 0);
+        this.showOverlay();
+      }
+    }, 1000);
 
   }
 
@@ -65,7 +81,7 @@ export class GameEnvPage implements OnInit {
     }
     this.monkeyTyp= ramdomtyp;
     this.soundController.initSound(this.monkeyTyp, random, 'hrtf');
-    this.monkeyPos= random;
+    this.monkeyPos= (random+ this.initheading)% 360;
     this.monkeySound= this.getMonkeySound(this.monkeyTyp);
     this.soundController.playSound(this.monkeyTyp, true);
     
@@ -89,4 +105,7 @@ export class GameEnvPage implements OnInit {
     this.soundController.stopAllSounds();
   }
 
+  public showOverlay() {
+    this.overlayHidden = false;
+  }
 }

@@ -107,7 +107,7 @@ initSounds(){
             // Start playing the Sound
             const sound = this.soundMap.get(index);
             if (this.soundArray[index].loop) {
-                sound.playloop();
+                sound.playloop(3000);
             }
             else {
                 sound.play();
@@ -126,7 +126,7 @@ initSounds(){
             sound.init();
             sound.loadSound();
             if (this.soundArray[index].loop) {
-                sound.playloop();
+                sound.playloop(3000);
             }
             else {
                 sound.play();
@@ -176,12 +176,12 @@ initSounds(){
         // sound.setGain(gain);
 
         sound.loadSound();
+        sound.setGain(gain);
     }
 
     setHeading(startpoint){
         //Wert zwischen 0 und 360
-        return(this.initheading+ startpoint)% 360;
-        //return startpoint;
+        return startpoint;
     }
 
     stopAllSounds(){

@@ -5,6 +5,7 @@
 .compass-container {
     width: 100%;
     position: relative;
+    margin-bottom: 1rem;
 }
 
 .compass-Background {
@@ -18,11 +19,12 @@
 .pointer {
     position: absolute;
     z-index: 100;
-    width: 6px;
+    width: 0px;
     background-color: red;
     height: 210px;
     left: 97px;
     top: -5px;
+    display: hide !important;
 }
 
 .compass-inneres {

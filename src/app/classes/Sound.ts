@@ -43,11 +43,11 @@ export class Sound {
         this.isPlaying = false;
     }
 
-    playloop(ms = 0) {
+    playloop(s = 0) {
         this.source.connect(this.encoder.in);
         this.encoder.out.connect(this.summator);
         this.source.loop = true;
-        this.source.loopStart= 2000;
+        this.source.loopStart= 3;
         this.source.start(0);
         this.isPlaying = true;
     }
@@ -86,7 +86,7 @@ export class Sound {
     //set Gain ...duh
     setGain(value){
         this.summator.gain.value= value;
-        this.summator.connect(this.context.destination);
+        this.summator.connect(this.rotator.in);
         this.source.connect(this.summator);
     }
 }
