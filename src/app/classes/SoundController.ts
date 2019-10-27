@@ -55,6 +55,15 @@ initController() {
         
         // Binaural Decode
         //this.encoder = new ambisonics.monoEncoder(this.context, this.order);
+        this.decoder = new ambisonics.binDecoder(this.context, this.order);
+
+        //Rotator
+        this.rotator = new ambisonics.sceneRotator(this.context, this.order);
+        this.rotator.out.connect(this.decoder.in);
+        
+        this.decoder.out.connect(this.context.destination);
+        this.decoder.resetFilters();
+                
 
         this.loader_filters = new ambisonics.HRIRloader_ircam(this.context, this.order, (buffer)=> {
             console.log('successfully loaded HOA buffer:', buffer);
