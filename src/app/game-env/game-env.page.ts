@@ -46,7 +46,7 @@ export class GameEnvPage implements OnInit {
   }
 
   ionViewDidEnter(){
-    //Init Sound Controlle
+    //Init Sound Controller
     this.soundController = new SoundController (this.deviceOrientation, 2);
     this.soundController.initController();
 
@@ -90,7 +90,7 @@ export class GameEnvPage implements OnInit {
   catchMonkey(){
     const currentPos= this.heading;
     if(this.monkeyPos+5 >=currentPos && this.monkeyPos-5 <=currentPos && this.soundController.soundMap.has(this.monkeyTyp))
-    {
+    {       
       this.points++;
       this.vibration.vibrate(1000);
       this.soundController.stopSound( this.monkeyTyp);
