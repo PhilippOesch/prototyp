@@ -1,0 +1,61 @@
+$qteColor: #78B188;
+$highlightColor: #14483c;
+$qteAnimationTime: 8s;
+.qteContainer {
+    padding: 3rem 0rem;
+    position: relative;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+}
+
+.qteBackground {
+    position: relative;
+    overflow: hidden;
+    margin: auto;
+    width: 300px;
+    border-radius: 30px 0px 30px 0px;
+    height: 50px;
+    background-color: rgba(1, 0, 0, 0);
+    position: relative;
+    border-radius: 30px 0px 30px 0px;
+    .qteBorder {
+        top: 0;
+        left: 0;
+        position: absolute;
+        width: 0px;
+        height: 50px;
+        background-color: rgba($qteColor, 1);
+        animation: qteAnimation $qteAnimationTime linear forwards;
+        z-index: 1;
+    }
+    .qteFill {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        width: 280px;
+        height: 30px;
+        border-radius: 20px 0px 20px 0px;
+        background-color: #222428;
+        animation: qteHighlight 0.2s linear $qteAnimationTime forwards;
+        z-index: 2;
+    }
+}
+
+@keyframes qteAnimation {
+    0% {
+        width: 0px;
+    }
+    100% {
+        width: 300px;
+    }
+}
+
+@keyframes qteHighlight {
+    0% {
+        background-color: rgba(#222428, 1);
+    }
+    100% {
+        background-color: rgba(#14483c, 1);
+    }
+}

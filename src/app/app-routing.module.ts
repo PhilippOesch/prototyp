@@ -4,7 +4,8 @@ const routes: Routes = [
   { path: '', redirectTo: 'menu', pathMatch: 'full' },
   { path: 'menu', loadChildren: './menu/menu.module#MenuPageModule' },
   { path: 'game-env', loadChildren: './game-env/game-env.module#GameEnvPageModule' },
-  { path: 'game-static', loadChildren: './game-static/game-static.module#GameStaticPageModule' },
+  { path: 'game-static', loadChildren: './game-static/game-static.module#GameStaticPageModule' },  { path: 'qte-test', loadChildren: './qte-test/qte-test.module#QteTestPageModule' },
+
 ];
 
 @NgModule({
