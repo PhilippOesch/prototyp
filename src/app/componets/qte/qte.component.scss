@@ -17,7 +17,7 @@ $qteAnimationTime: 8s;
     height: 50px;
     background-color: rgba(1, 0, 0, 1);
     position: relative;
-    animation: qteFinished 0.2s linear 5s forwards;
+    animation: qteFinished 0.2s linear 5s forwards, fallDownAnimation 1.0s ease-in 5.5s forwards;
     z-index: 1;
     .qte-fill-container {
         position: absolute;
@@ -41,15 +41,31 @@ $qteAnimationTime: 8s;
     }
 }
 
-.qte-action-button {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1rem;
-    max-width: 350px;
-    --border-radius: 20px;
-    &:first-child {
-        margin-top: 2rem;
+.button-container{
+    position: relative;
+    .qte-action-button{
+        left: 50%;
+        transform: translateX(-50%);
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 1rem;
+        max-width: 350px;
+        min-width: 200px;
+        --border-radius: 20px;
+        &:first-child {
+            margin-top: 2rem;
+        }
+
+        &.falldown{
+            animation: fallDownAnimation 1.0s ease-in 5.4s forwards;
+        }
     }
+
+}
+
+.falldown{
+    animation: fallDownAnimation 1.0s ease-in 5.4s forwards;
 }
 
 @keyframes qteFillAnimation {
@@ -68,5 +84,16 @@ $qteAnimationTime: 8s;
     100% {
         background-color: $qteColor;
         z-index: 5;
+    }
+}
+
+@keyframes fallDownAnimation{
+    0% {
+        top: 0px;
+        opacity: 1;
+    }
+    100% {
+        top: 1100px;
+        opacity: 0;
     }
 }
