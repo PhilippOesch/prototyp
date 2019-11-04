@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { SoundController } from '../classes/SoundController';
 import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-native/device-orientation/ngx';
 import { Vibration } from '@ionic-native/vibration/ngx';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-game-env',
@@ -23,8 +24,23 @@ export class GameEnvPage implements OnInit {
   //for timer
   intervalTimer;
   timeleft= 90;
+  isPaused=false;
 
-  constructor(protected deviceOrientation: DeviceOrientation, private vibration: Vibration) { }
+  constructor(protected deviceOrientation: DeviceOrientation, private vibration: Vibration, public platform: Platform) {
+    platform.ready().then(() => {
+      //pause when tapping out of app
+      this.platform.pause.subscribe(() => {
+        this.pauseGame();
+        console.log("pause");
+      });
+
+      //continue when tapping into app
+      this.platform.resume.subscribe(() => {
+        this.unpauseGame();
+        console.log("continue");
+      });
+    });
+   }
 
   ngOnInit() {
 
@@ -42,7 +58,6 @@ export class GameEnvPage implements OnInit {
             this.heading = data.magneticHeading;
         },
     );
-
   }
 
   ionViewDidEnter(){
@@ -56,19 +71,23 @@ export class GameEnvPage implements OnInit {
 
 
     this.intervalSpawn = setInterval(() =>{
-      this.soundController.stopSound( this.monkeyTyp);
-      this.spawnMonkey();
+      if(!this.isPaused){
+        this.soundController.stopSound( this.monkeyTyp);
+        this.spawnMonkey();
+      }
     }, 10000)
 
     this.intervalTimer = setInterval(() => {
-      this.timeleft = this.timeleft - 1;
-      console.log(this.timeleft);
-      if(this.timeleft === 0){ 
-        clearInterval(this.intervalTimer);
-        clearInterval(this.intervalSpawn);
-        this.soundController.stopSound( this.monkeyTyp);
-        this.soundController.stopSound( 0);
-        this.showOverlay();
+      if(!this.isPaused){
+        this.timeleft = this.timeleft - 1;
+        console.log(this.timeleft);
+        if(this.timeleft === 0){ 
+          clearInterval(this.intervalTimer);
+          clearInterval(this.intervalSpawn);
+          this.soundController.stopSound( this.monkeyTyp);
+          this.soundController.stopSound( 0);
+          this.showOverlay();
+        }
       }
     }, 1000);
   }
@@ -108,5 +127,19 @@ export class GameEnvPage implements OnInit {
   public showOverlay() {
     this.overlayHidden = false;
   }
+
+  pauseGame = () =>{
+    //suspends Audiocontext
+    this.soundController.context.suspend().then(() => {
+      this.isPaused=true;
+      console.log(this.isPaused);
+    });
+  };
+
+  unpauseGame = () => {
+    this.soundController.context.resume().then(() => {
+      this.isPaused=false;
+    });
+  };
 
 }

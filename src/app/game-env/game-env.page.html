@@ -16,4 +16,7 @@
     <ion-button size="large" (click)="catchMonkey()">Affe fangen</ion-button>
     <h3>Affen gefangen: {{points}}</h3>
     <h5>verbleibende Zeit: {{timeleft}}s</h5>
+    <ion-button (click)="pauseGame()">Pause</ion-button>
+    <ion-button (click)="unpauseGame()">Continue</ion-button>
+    <ion-button (click)="pauseGame()" color="medium" size= "large"><img src="" alt="pause-icon"></ion-button>
 </ion-content>

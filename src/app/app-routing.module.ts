@@ -5,6 +5,7 @@ const routes: Routes = [
   { path: 'menu', loadChildren: './menu/menu.module#MenuPageModule' },
   { path: 'game-env', loadChildren: './game-env/game-env.module#GameEnvPageModule' },
   { path: 'game-static', loadChildren: './game-static/game-static.module#GameStaticPageModule' },  { path: 'qte-test', loadChildren: './qte-test/qte-test.module#QteTestPageModule' },
+  { path: 'qte-button-test', loadChildren: './qte-button-test/qte-button-test.module#QteButtonTestPageModule' },
 
 ];
 
