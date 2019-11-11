@@ -16,7 +16,11 @@
     <ion-button size="large" (click)="catchMonkey()">Affe fangen</ion-button>
     <h3>Affen gefangen: {{points}}</h3>
     <h5>verbleibende Zeit: {{timeleft}}s</h5>
-    <ion-button (click)="pauseGame()">Pause</ion-button>
-    <ion-button (click)="unpauseGame()">Continue</ion-button>
-    <ion-button (click)="pauseGame()" color="medium" size= "large"><img src="" alt="pause-icon"></ion-button>
+    <ion-button class="pause-button" fill="clear" (click)="pauseGame()"><img class="pause-icon" src="assets/icon/pause2.svg" alt="pause-icon"></ion-button>
 </ion-content>
+
+<div class="overlay pause-overlay" padding [hidden]="pauseOverlayHidden">
+        <div class="overlay-content-wrapper">
+            <ion-button class="play-button" fill="clear" size="large" (click)="hidePauseOverlay()"><img class="play-icon" src="assets/icon/play3.svg" alt="play-icon"></ion-button>
+        </div>
+</div>

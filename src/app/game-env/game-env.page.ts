@@ -11,6 +11,7 @@ import { Platform } from '@ionic/angular';
 })
 export class GameEnvPage implements OnInit {
   overlayHidden = true;
+  pauseOverlayHidden= true;
 
   soundController;
   monkeyPos= 0;
@@ -30,13 +31,13 @@ export class GameEnvPage implements OnInit {
     platform.ready().then(() => {
       //pause when tapping out of app
       this.platform.pause.subscribe(() => {
-        this.pauseGame();
+        //this.pauseGame();
         console.log("pause");
       });
 
       //continue when tapping into app
       this.platform.resume.subscribe(() => {
-        this.unpauseGame();
+        //this.unpauseGame();
         console.log("continue");
       });
     });
@@ -108,7 +109,7 @@ export class GameEnvPage implements OnInit {
 
   catchMonkey(){
     const currentPos= this.heading;
-    if(this.monkeyPos+5 >=currentPos && this.monkeyPos-5 <=currentPos && this.soundController.soundMap.has(this.monkeyTyp))
+    if(this.monkeyPos + 5 >= currentPos && this.monkeyPos - 5 <= currentPos && this.soundController.soundMap.has(this.monkeyTyp))
     {       
       this.points++;
       this.vibration.vibrate(1000);
@@ -132,6 +133,7 @@ export class GameEnvPage implements OnInit {
     //suspends Audiocontext
     this.soundController.context.suspend().then(() => {
       this.isPaused=true;
+      this.pauseOverlayHidden=false;
       console.log(this.isPaused);
     });
   };
@@ -139,7 +141,13 @@ export class GameEnvPage implements OnInit {
   unpauseGame = () => {
     this.soundController.context.resume().then(() => {
       this.isPaused=false;
+      this.pauseOverlayHidden=true;
     });
-  };
+  }
+
+  hidePauseOverlay(){
+    this.unpauseGame();
+    this.pauseOverlayHidden=true;
+  }
 
 }

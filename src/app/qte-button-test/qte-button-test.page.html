@@ -5,7 +5,9 @@
 </ion-header>
 
 <ion-content>
-  <div class="container">
-      <div class="qte-btn help-icon"></div>
+  <div [ngStyle]="{'animation-duration': animationTime}"  class="container">
+    <div (click)="onClickHandler()" class="qte-btn">
+      <div class="help-icon"></div>
+    </div>
   </div>
 </ion-content>

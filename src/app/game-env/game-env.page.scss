@@ -15,6 +15,10 @@
     z-index: 20;
     top: 0;
     left: 0;
+
+    &.pause-overlay{
+        background: rgba(0, 0, 0, 0.8);
+    }
 }
 
 .overlay-content-wrapper {
@@ -23,10 +27,22 @@
     position: fixed;
     width: 300px;
     height: 300px;
-    top: calc(50% - 150px);
+    top: calc(50% - 100px);
     left: calc(50% - 150px);
 }
 
 .button-container{
     margin-top: 1rem;
 }
+
+.pause-button{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
+.play-icon{
+    width:64px;
+    height:64px;
+}
+
