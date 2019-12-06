@@ -1,8 +1,7 @@
 
 //Custom Classes
 import { Sound } from './Sound';
-import { HRTFSound } from './HRTFSound';
-import { MultichannelSound } from './MultichannelSound';
+import { MultichannelSound } from './MultichannelSound'; //class for multichannel Sounds
 
 import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-native/device-orientation/ngx';
 
@@ -16,17 +15,17 @@ declare const ambisonics;
 
 export class SoundController {
 
-    soundMap: Map<number, any>;
-    context;
-    orientation: DeviceOrientation;
-    soundArray: any;
-    heading: number;
-    order= 4;
-    loader_filters;
-    initheading: number;
+    soundMap: Map<number, any>;         //Map with all the currently playing sound
+    context;                            //Audio Context
+    orientation: DeviceOrientation;     //Device Orientation
+    soundArray: any;                    //This Variable takes on the Json Array of the Current Chapter
+    heading: number;                    //Current Rotation from Device Orientation
+    order= 4;                           //Max Order
+    loader_filters;                     //for Loading Filters like HRTF-Curves(sofa.json-files)
+    initheading: number;                //Initial Rotation
 
-    rotator;
-    decoder;
+    rotator;                            //Scene Rotator
+    decoder;                            //Ambisonics Bineural Decoder
 
     constructor(protected deviceOrientation: DeviceOrientation, chapter: number) {
         this.soundMap = new Map();
@@ -42,6 +41,7 @@ export class SoundController {
 //init just the Controller
 initController() {
 
+        //Initialise Device Orientation Listener
         var subscription = this.deviceOrientation.watchHeading().subscribe(
             (data: DeviceOrientationCompassHeading) => {
                 this.heading = data.magneticHeading;
@@ -53,18 +53,19 @@ initController() {
             },
         );
         
-        // Binaural Decode
+        // intitalise Bineural Decoder
         //this.encoder = new ambisonics.monoEncoder(this.context, this.order);
         this.decoder = new ambisonics.binDecoder(this.context, this.order);
 
-        //Rotator
+        //initalise Scene Rotator
         this.rotator = new ambisonics.sceneRotator(this.context, this.order);
+
+        //connect to Context
         this.rotator.out.connect(this.decoder.in);
-        
         this.decoder.out.connect(this.context.destination);
         this.decoder.resetFilters();
                 
-
+        //load HRTF-Curves
         this.loader_filters = new ambisonics.HRIRloader_ircam(this.context, this.order, (buffer)=> {
             console.log('successfully loaded HOA buffer:', buffer);
             console.log(this.decoder);
@@ -73,7 +74,7 @@ initController() {
         this.loader_filters.load("assets/IRs/IRC_1076_C_HRIR_44100.sofa.json");
         console.log(this.loader_filters);
 
-        // Rotation
+        //set Initial Heading and update the Scene Rotator
         this.initheading= this.heading;
         this.rotator.yaw = this.heading;
         this.rotator.updateRotMtx();
@@ -85,7 +86,8 @@ initSounds(){
         
         //Init all Sounds inside Array
         for (let value of this.soundArray) {
-            this.soundMap.set(value, new HRTFSound(this.context, this.orientation, value.name, value.order, value.startpoint, this.rotator));
+            //Bye Default All sound are Initialised as HRTF Sounds
+            this.soundMap.set(value, new Sound(this.context, this.orientation, value.name, value.order, value.startpoint, this.rotator));
             const sound = this.soundMap.get(value);
             sound.init();
             sound.loadSound();
@@ -100,6 +102,8 @@ initSounds(){
 
             // Start playing the Sound
             const sound = this.soundMap.get(index);
+
+            // Check whether to loop the Sound
             if (this.soundArray[index].loop) {
                 sound.playloop(3000);
             }
@@ -111,14 +115,14 @@ initSounds(){
 
             // load the Sound and start playing it
             const value = this.soundArray[index];
-            if(isHrtf){
-                this.soundMap.set(value.name, new HRTFSound(this.context, this.orientation, value.name, value.order, value.startpoint, this.rotator));
-            } else {
-                this.soundMap.set(value.name, new Sound(this.context, this.orientation, value.name, value.order, value.startpoint, this.rotator));
-            }
+
+            this.soundMap.set(value.name, new Sound(this.context, this.orientation, value.name, value.order, value.startpoint, this.rotator));
+
             const sound = this.soundMap.get(value.name);
             sound.init();
             sound.loadSound();
+
+            // Check whether to loop the Sound
             if (this.soundArray[index].loop) {
                 sound.playloop(3000);
             }
@@ -154,12 +158,10 @@ initSounds(){
     }
 
     //init one specific sound
-    initSound(index, startpoint= 0, typ= "", gain= 1){
+    initSound(index, startpoint= 0, typ= "", gain= 1) /* Typ: "multi" or else HRTF, Index: Index from JSON-Array */{
         //check Sound-Type
         if(typ=== "multi"){
             this.soundMap.set(index, new MultichannelSound(this.context, this.orientation, this.soundArray[index].name, this.soundArray[index].order,  this.setHeading(startpoint), this.rotator));
-        } else if(typ=== "hrtf") {
-            this.soundMap.set(index, new HRTFSound(this.context, this.orientation, this.soundArray[index].name, this.soundArray[index].order, this.setHeading(startpoint), this.rotator));
         } else {
             this.soundMap.set(index, new Sound(this.context, this.orientation, this.soundArray[index].name, this.soundArray[index].order, this.setHeading(startpoint), this.rotator));
 
@@ -175,8 +177,9 @@ initSounds(){
     //adjust the heading accordingly for the proper sound position
     setHeading(startpoint){
         //for some reason everything is turned +180 degrees, dont know why 
-        // return (startpoint+180)% 360;
         return (startpoint)% 360;
+
+        // return (startpoint+180)% 360;
     }
 
     //Stop sll Sound currently playing

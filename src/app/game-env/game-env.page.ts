@@ -31,13 +31,13 @@ export class GameEnvPage implements OnInit {
     platform.ready().then(() => {
       //pause when tapping out of app
       this.platform.pause.subscribe(() => {
-        //this.pauseGame();
+        this.pauseGame();
         console.log("pause");
       });
 
       //continue when tapping into app
       this.platform.resume.subscribe(() => {
-        //this.unpauseGame();
+        this.unpauseGame();
         console.log("continue");
       });
     });
@@ -71,12 +71,12 @@ export class GameEnvPage implements OnInit {
     this.soundController.playSound(0);
 
 
-    this.intervalSpawn = setInterval(() =>{
-      if(!this.isPaused){
-        this.soundController.stopSound( this.monkeyTyp);
-        this.spawnMonkey();
-      }
-    }, 10000)
+    // this.intervalSpawn = setInterval(() =>{
+    //   if(!this.isPaused){
+    //     this.soundController.stopSound( this.monkeyTyp);
+    //     this.spawnMonkey();
+    //   }
+    // }, 10000)
 
     this.intervalTimer = setInterval(() => {
       if(!this.isPaused){

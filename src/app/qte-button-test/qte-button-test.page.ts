@@ -6,13 +6,8 @@ import { Component, OnInit} from '@angular/core';
   styleUrls: ['./qte-button-test.page.scss'],
 })
 export class QteButtonTestPage implements OnInit {
-  animationTime = '20s';
-
   constructor() { }
 
   ngOnInit() {
-  }
-  onClickHandler() {
-    console.log('Jeff');
   }
 }

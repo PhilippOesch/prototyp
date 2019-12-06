@@ -7,6 +7,9 @@ import { IonicModule } from '@ionic/angular';
 
 import { QteButtonTestPage } from './qte-button-test.page';
 
+//Added Components
+import { QteButtonComponent } from '../components/qte-button/qte-button.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -21,6 +24,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [QteButtonTestPage]
+  declarations: [QteButtonTestPage, QteButtonComponent]
 })
 export class QteButtonTestPageModule {}

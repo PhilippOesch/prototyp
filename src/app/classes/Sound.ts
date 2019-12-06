@@ -28,13 +28,13 @@ export class Sound {
     /*Constructor*/
     constructor(context, protected deviceOrientation: DeviceOrientation, path: String, order: number, startpoint: number, rotator) {
         //this.encoder= encoder;
-        this.context = context;
-        this.source = this.context.createBufferSource();
-        this.summator = this.context.createGain();
+        this.context = context;                             //Audio Context
+        this.source = this.context.createBufferSource();    
+        this.summator = this.context.createGain();          //Gain
         this.path = path;
-        this.order = order;
+        this.order = order;                                 //Max Order
         this.heading= 0;
-        this.startpoint = startpoint;
+        this.startpoint = startpoint;                       //Position relativ to Starting-Pos
         this.encoder = new ambisonics.monoEncoder(this.context, this.order);
         this.rotator = rotator;
 
@@ -43,9 +43,10 @@ export class Sound {
                 this.heading = data.magneticHeading;
 
                 //Update Rotation
+                this.hoaEncoder((data.magneticHeading-startpoint)%360);
+
                 //this.rotator.yaw = this.heading;
                 //this.rotator.updateRotMtx();
-                this.hoaEncoder((data.magneticHeading-startpoint)%360);
             },
         );
     }
@@ -74,13 +75,16 @@ export class Sound {
 
     loadSound() {
         const url: string = 'assets/sounds/' + this.path;
-            fetch(url, {method: 'GET'}).then(response => response.arrayBuffer().
-            then(
-                buffer => {
-                    this.context.decodeAudioData(buffer, audioBuffer => { //this.source.buffer = audioBuffer;}, url => {
-                        console.log('Failed to load Sound file: ' + url); });
+        fetch(url, {method: 'GET'}).then(response => response.arrayBuffer().
+        then(
+            buffer => {
+                this.context.decodeAudioData(buffer, audioBuffer => 
+                    { 
+                        this.source.buffer= audioBuffer; 
+                        //console.log(audioBuffer);
+                    });
                 }
-            ));
+        ));
 
         // fetch(url, {method: 'GET'}).then(response => response.arrayBuffer().
         // then(

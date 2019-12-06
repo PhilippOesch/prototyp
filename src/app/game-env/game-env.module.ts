@@ -8,7 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { GameEnvPage } from './game-env.page';
 
 //Compass Component
-import { CompassComponent } from '../componets/compass/compass.component';
+import { CompassComponent } from '../components/compass/compass.component';
 
 const routes: Routes = [
   {

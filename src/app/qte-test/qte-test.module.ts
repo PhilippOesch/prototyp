@@ -8,7 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { QteTestPage } from './qte-test.page';
 
 //Added Components
-import { QteComponent} from '../componets/qte/qte.component';
+import { QteBarComponent} from '../components/qte-bar/qte-bar.component';
 
 const routes: Routes = [
   {
@@ -26,7 +26,7 @@ const routes: Routes = [
   ],
   declarations: [
     QteTestPage,
-    QteComponent
+    QteBarComponent
   ]
 })
 export class QteTestPageModule {}
