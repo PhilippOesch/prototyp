@@ -14,7 +14,7 @@ import { Vibration } from '@ionic-native/vibration/ngx';
 import { Platform } from '@ionic/angular';
 
 /* needed that for building apk directly on Smartphone */
-import { AudioContext, OfflineAudioContext } from 'standardized-audio-context';
+//import { AudioContext, OfflineAudioContext } from 'standardized-audio-context';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +24,6 @@ import { AudioContext, OfflineAudioContext } from 'standardized-audio-context';
     StatusBar,
     SplashScreen,
     DeviceOrientation,
-    AudioContext,
     Vibration,
     Platform,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

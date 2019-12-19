@@ -1,13 +1,15 @@
 
 //Custom Classes
 import { Sound } from './Sound';
+import { HRTFSound } from './HRTFSound'; //class for multichannel Sounds
 import { MultichannelSound } from './MultichannelSound'; //class for multichannel Sounds
 
 import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-native/device-orientation/ngx';
 
 /* needed that for building apk directly on Smartphone */
-import { AudioContext, OfflineAudioContext } from 'standardized-audio-context';
+
 import json from '../../assets/json/sound.json';
+import { timer } from 'rxjs';
 
 // TODO: Need a lot of work. Don't know what to say.
 //declare ambisonics
@@ -30,7 +32,7 @@ export class SoundController {
     constructor(protected deviceOrientation: DeviceOrientation, chapter: number) {
         this.soundMap = new Map();
         this.context = new AudioContext();
-        //this.context = (window.AudioContext) ? new window.AudioContext : new window.webkitAudioContext;
+        //this.context = /*(window.AudioContext) ? */new window.AudioContext /*: new window.webkitAudioContext*/;
         this.orientation = this.deviceOrientation;
         this.heading = 0;
         this.soundArray = json[chapter - 1];
@@ -80,14 +82,14 @@ initController() {
         this.rotator.updateRotMtx();
     }
 
-//init all Sound for this Chapter
-initSounds(){
+    //init all Sound for this Chapter
+    initSounds(){
         console.log(this.soundArray);
         
         //Init all Sounds inside Array
         for (let value of this.soundArray) {
             //Bye Default All sound are Initialised as HRTF Sounds
-            this.soundMap.set(value, new Sound(this.context, this.orientation, value.name, value.order, value.startpoint, this.rotator));
+            this.soundMap.set(value, new HRTFSound(this.context, this.orientation, value.name, value.order, value.startpoint, this.rotator));
             const sound = this.soundMap.get(value);
             sound.init();
             sound.loadSound();
@@ -116,7 +118,7 @@ initSounds(){
             // load the Sound and start playing it
             const value = this.soundArray[index];
 
-            this.soundMap.set(value.name, new Sound(this.context, this.orientation, value.name, value.order, value.startpoint, this.rotator));
+            this.soundMap.set(value.name, new HRTFSound(this.context, this.orientation, value.name, value.order, value.startpoint, this.rotator));
 
             const sound = this.soundMap.get(value.name);
             sound.init();
@@ -141,12 +143,9 @@ initSounds(){
 
             // Stop playing Sound
             const sound = this.soundMap.get(index);
-            if(sound.isPlaying){
-                sound.stop();
-            }
-            // sound.stop();
 
-            // delete Sound from Map
+                sound.stop();
+
             this.soundMap.delete(index);
 
             console.log('Sound deactivated');
@@ -163,15 +162,13 @@ initSounds(){
         if(typ=== "multi"){
             this.soundMap.set(index, new MultichannelSound(this.context, this.orientation, this.soundArray[index].name, this.soundArray[index].order,  this.setHeading(startpoint), this.rotator));
         } else {
-            this.soundMap.set(index, new Sound(this.context, this.orientation, this.soundArray[index].name, this.soundArray[index].order, this.setHeading(startpoint), this.rotator));
+            this.soundMap.set(index, new HRTFSound(this.context, this.orientation, this.soundArray[index].name, this.soundArray[index].order, this.setHeading(startpoint), this.rotator));
 
         }
         const sound = this.soundMap.get(index);
         sound.init();
         sound.loadSound();
-
-        //set the gain
-        //sound.setGain(gain);
+        sound.setGain(gain);
     }
 
     //adjust the heading accordingly for the proper sound position
@@ -186,7 +183,7 @@ initSounds(){
     stopAllSounds(){
         for (let value of this.soundArray) {
             if(this.soundMap.has(value)){
-                this.stopSound(value);
+               const sound= this.stopSound(value);
             }
         }
     }
@@ -197,4 +194,39 @@ initSounds(){
     //     this.encoder.updateGains();
     //     console.log(this.encoder);
     // }
+
+    getDuration(index: number){
+        return this.soundArray[index].duration;
+
+    }
+
+
+    crossfade(indexSound1: number, indexSound2: number, duration: number){
+        // 1. Sound: fades to 0
+        console.log(this.context.currentTime);
+        let sound1= this.soundMap.get(indexSound1);
+        // 2. Sound fades to 1
+        let sound2= this.soundMap.get(indexSound2);
+        console.log("start Crossfade");
+        // let factor= 1/ (duration* 1000);
+        // let x= 0;
+        // sound2.playloop();
+        // const crossfadetimer = timer(0, duration * 1000);
+        // const timersub= crossfadetimer.subscribe(() => {
+        //     x += factor;
+        //     sound1.summator.gain.value = (1 - x);
+        //     sound1.summator.gain.value = (0 + x);
+        //     if ( x >= 1 ){
+        //         timersub.unsubscribe();
+        //     }
+        // });
+
+        //ramp gain down to 0
+        sound1.summator.gain.linearRampToValueAtTime(0.0, this.context.currentTime + duration);   //linear
+        //sound1.summator.gain.exponentialRampToValueAtTime(0.01, this.context.currentTime + duration);    //exponetial
+
+        //ramp gain up to 1
+        sound2.summator.gain.linearRampToValueAtTime(1.0, this.context.currentTime + duration);   //linear
+        //sound2.summator.gain.exponentialRampToValueAtTime(1.0, this.context.currentTime + duration);    //exponetial
+    }
 }

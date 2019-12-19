@@ -36,10 +36,8 @@ export class GameEnvPage implements OnInit {
       });
 
       //continue when tapping into app
-      this.platform.resume.subscribe(() => {
-        this.unpauseGame();
-        console.log("continue");
-      });
+      // this.platform.resume.subscribe(() => {
+      // });
     });
    }
 
@@ -140,9 +138,10 @@ export class GameEnvPage implements OnInit {
 
   unpauseGame = () => {
     this.soundController.context.resume().then(() => {
+    });
       this.isPaused=false;
       this.pauseOverlayHidden=true;
-    });
+    console.log(this.isPaused);
   }
 
   hidePauseOverlay(){

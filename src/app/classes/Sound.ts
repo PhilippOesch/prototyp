@@ -1,9 +1,10 @@
 import { DeviceOrientation, DeviceOrientationCompassHeading } from '@ionic-native/device-orientation/ngx';
 import {path} from "@angular-devkit/core";
+
 //declare ambisonics
 declare const ambisonics;
 
-export class Sound {
+export abstract class Sound {
 
     /* Class Attributes*/
     context;
@@ -13,6 +14,7 @@ export class Sound {
     summator;
     rotator
     subscription;
+    duration= 0;
 
 
     //compass value
@@ -38,17 +40,6 @@ export class Sound {
         this.encoder = new ambisonics.monoEncoder(this.context, this.order);
         this.rotator = rotator;
 
-        this.subscription = this.deviceOrientation.watchHeading().subscribe(
-            (data: DeviceOrientationCompassHeading) => {
-                this.heading = data.magneticHeading;
-
-                //Update Rotation
-                this.hoaEncoder((data.magneticHeading-startpoint)%360);
-
-                //this.rotator.yaw = this.heading;
-                //this.rotator.updateRotMtx();
-            },
-        );
     }
 
     /*Methods*/
@@ -64,7 +55,7 @@ export class Sound {
         this.source.connect(this.encoder.in);
         this.encoder.out.connect(this.summator);
         this.source.loop = true;
-        this.source.loopStart= 3;
+        this.source.loopStart = 3;
         this.source.start(0);
         this.isPlaying = true;
     }
@@ -78,24 +69,23 @@ export class Sound {
         fetch(url, {method: 'GET'}).then(response => response.arrayBuffer().
         then(
             buffer => {
-                this.context.decodeAudioData(buffer, audioBuffer => 
+                this.context.decodeAudioData(buffer, (audioBuffer) => 
                     { 
                         this.source.buffer= audioBuffer; 
                         //console.log(audioBuffer);
                     });
-                }
+            }
         ));
 
-        // fetch(url, {method: 'GET'}).then(response => response.arrayBuffer().
-        // then(
-        //     buffer => {
-        //         this.context.decodeAudioData(buffer, audioBuffer => { this.source.buffer = audioBuffer;}, url => {
-        //             console.log('Failed to load Sound file: ' + url); });
-        //     }
-        // ));
-
+    //     this.loader_filters = new ambisonics.HRIRloader_ircam(this.context, this.order, (buffer)=> {
+    //         console.log('successfully loaded HOA buffer:', buffer);
+    //         console.log(this.binDecoder);
+    //         this.binDecoder.updateFilters(buffer);
+    //     });
+    //     this.loader_filters.load("assets/IRs/IRC_1076_C_HRIR_44100.sofa.json");
+    //     console.log(this.loader_filters);
     }
-
+    
     init() {
 
         // Summing and routing of Audio Sources

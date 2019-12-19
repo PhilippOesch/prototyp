@@ -37,5 +37,19 @@
             "startpoint": 0,
             "loop": true
         }
+    ],
+    [
+        {
+            "name": "002_ATMO_WaldWasser.wav",
+            "order": 1,
+            "startpoint": 0,
+            "loop": true
+        },
+        {
+            "name": "003_ATMO_Fluss.wav",
+            "order": 1,
+            "startpoint": 0,
+            "loop": true
+        }
     ]
 ]
